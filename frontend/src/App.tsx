@@ -1,6 +1,7 @@
 import React from 'react';
 import Footer from './Components/Footer';
 import Header from './Components/Header/Header';
+import Home from './Pages/Home';
 
 function App() {
   return (
@@ -8,7 +9,7 @@ function App() {
       <Header />
       <div className='wrapper'>
         <main>
-          <h1>Welcome to ecommerce</h1>
+          <Home />
         </main>
       </div>
       <Footer />

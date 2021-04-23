@@ -6,12 +6,13 @@
 .header__nav {
   display: flex;
   justify-content: end;
+  align-items: center;
 }
-.header__nav > a:hover{
-   color:#ccc;
+.header__nav > a:hover {
+  color: #ccc;
 }
 .header__nav > a > i {
-   margin-right:.6em;
+  margin-right: 0.6em;
 }
 .logo {
   font-weight: bold;
