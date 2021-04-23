@@ -1,0 +1,27 @@
+.header {
+  background-color: #282828;
+  color: white;
+  padding: 2em 0;
+}
+.header__nav {
+  display: flex;
+  justify-content: end;
+}
+.header__nav > a:hover{
+   color:#ccc;
+}
+.header__nav > a > i {
+   margin-right:.6em;
+}
+.logo {
+  font-weight: bold;
+}
+.grid-2-columns {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+nav > a {
+  color: white;
+  text-decoration: none;
+  margin-right: 2em;
+}
