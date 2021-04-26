@@ -1,5 +1,5 @@
 .latest-products {
   display: grid;
-  grid-template-columns: repeat(3, auto);
-  gap: 3em 6%;
+  grid-template-columns: repeat(auto-fit, minmax(19em, 1fr));
+  gap: 3em;
 }
