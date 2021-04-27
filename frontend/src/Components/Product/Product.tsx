@@ -1,12 +1,14 @@
 import React, { FC } from 'react';
+import { Link } from 'react-router-dom';
 import { IProduct } from '../../products';
+import Rating from '../Rating/Rating';
 import './Product.css';
 interface ProductProps {
   product: IProduct;
 }
 const Product: FC<ProductProps> = ({ product }) => {
   return (
-    <a href={`/product/${product._id}`}>
+    <Link to={`/product/${product._id}`}>
       <div className='card'>
         <div className='card__wrapper'>
           <div className='card__image'>
@@ -14,14 +16,15 @@ const Product: FC<ProductProps> = ({ product }) => {
           </div>
           <div className='card__info '>
             <strong>{product.name}</strong>
-            <p>
-              {product.rating} from {product.numReviews} reviews
-            </p>
+            <Rating
+              value={product.rating}
+              text={`${product.numReviews} reviews`}
+            />
             <strong className='card__price'>$ {product.price}</strong>
           </div>
         </div>
       </div>
-    </a>
+    </Link>
   );
 };
 

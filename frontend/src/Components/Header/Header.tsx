@@ -7,8 +7,12 @@ const Header = () => {
       <div className='wrapper grid-2-columns'>
         <Logo />
         <nav className='header__nav'>
-          <a href='#'><i className='fas fa-shopping-cart'></i>Cart</a>
-          <a href='#'><i className='fas fa-user'></i>Sign in</a>
+          <a href='#'>
+            <i className='fas fa-shopping-cart'></i>Cart
+          </a>
+          <a href='#'>
+            <i className='fas fa-user'></i>Sign in
+          </a>
         </nav>
       </div>
     </header>
