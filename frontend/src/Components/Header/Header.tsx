@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../images/Logo.svg';
 import './Header.css';
 const Header = () => {
@@ -7,12 +8,12 @@ const Header = () => {
       <div className='wrapper grid-2-columns'>
         <Logo />
         <nav className='header__nav'>
-          <a href='#'>
+          <NavLink to='/cart' activeStyle={{ fontWeight: 'bold' }}>
             <i className='fas fa-shopping-cart'></i>Cart
-          </a>
-          <a href='#'>
+          </NavLink>
+          <NavLink to='/login' activeStyle={{ fontWeight: 'bold' }}>
             <i className='fas fa-user'></i>Sign in
-          </a>
+          </NavLink>
         </nav>
       </div>
     </header>
