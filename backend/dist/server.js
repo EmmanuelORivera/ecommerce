@@ -4,9 +4,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
+var dotenv_1 = __importDefault(require("dotenv"));
 var products_1 = __importDefault(require("./data/products"));
+dotenv_1.default.config();
 var app = express_1.default();
-var PORT = 5000;
 app.get('/', function (req, res) {
     res.send('API is running....');
 });
@@ -17,5 +18,8 @@ app.get('/api/products/:id', function (req, res) {
     var product = products_1.default.find(function (product) { return product._id === req.params.id; });
     product ? res.json(product) : res.json({ msg: 'No existe ese producto' });
 });
-app.listen(PORT, function () { return console.log("Running on Port " + PORT); });
+var PORT = process.env.PORT || 5000;
+app.listen(PORT, function () {
+    return console.log("Server running in " + process.env.NODE_ENV + " mode, on port " + PORT);
+});
 //# sourceMappingURL=server.js.map

@@ -1,7 +1,10 @@
 import express, { Request, Response } from 'express';
+import dotenv from 'dotenv';
 import products, { IProduct } from './data/products';
+
+dotenv.config();
+
 const app = express();
-const PORT = 5000;
 
 app.get('/', (req: Request, res: Response) => {
   res.send('API is running....');
@@ -18,4 +21,7 @@ app.get('/api/products/:id', (req: Request<{ id: string }>, res: Response) => {
   product ? res.json(product) : res.json({ msg: 'No existe ese producto' });
 });
 
-app.listen(PORT, () => console.log(`Running on Port ${PORT}`));
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () =>
+  console.log(`Server running in ${process.env.NODE_ENV} mode, on port ${PORT}`)
+);
