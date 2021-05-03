@@ -4,18 +4,21 @@
   "description": "MERN shopping cart app using TS",
   "main": "dist/server.js",
   "scripts": {
-    "build": "tsc",
-    "start": "tsc --project backend/tsconfig.json",
-    "dev": "tsc -w & nodemon ."
+    "client": "npm start --prefix frontend",
+    "dev-server": "concurrently -k \"tsc -p backend/tsconfig.json -w\" \"nodemon ./backend/dist/server.js\"",
+    "dev": "concurrently \"npm run dev-server\" \"npm run client\""
   },
   "author": "Emmanuel Ochoa Rivera",
   "license": "MIT",
   "dependencies": {
+    "@types/concurrently": "^6.0.1",
     "@types/express": "^4.17.11",
     "@types/node": "^15.0.1",
+    "@types/nodemon": "^1.19.0",
     "express": "^4.17.1"
   },
   "devDependencies": {
+    "concurrently": "^6.0.2",
     "nodemon": "^2.0.7",
     "ts-node": "^9.1.1"
   }

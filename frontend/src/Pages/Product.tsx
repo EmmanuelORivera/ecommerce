@@ -1,13 +1,27 @@
-import React, { FC } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import React, { FC, useEffect, useState } from 'react';
+import axios from 'axios';
+import { RouteComponentProps } from 'react-router-dom';
 import Button from '../Components/Button/Button';
 import Rating from '../Components/Rating/Rating';
-import products from '../products';
+import { IProduct } from '../products';
 import './Product.css';
 interface ProductProps extends RouteComponentProps<{ id: string }> {}
 
 const Product: FC<ProductProps> = ({ match }) => {
-  const product = products.find((product) => product._id === match.params.id);
+  const [product, setProduct] = useState<IProduct | undefined>(undefined);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const { data } = await axios.get(`/api/products/${match.params.id}`);
+        setProduct(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchProducts();
+  }, [match.params.id]);
   if (!product) return null;
   return (
     <>
