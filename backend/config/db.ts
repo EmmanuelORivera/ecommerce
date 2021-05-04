@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import colors from 'colors';
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGO_URI as string, {
@@ -6,9 +7,9 @@ const connectDB = async () => {
       useNewUrlParser: true,
       useCreateIndex: true,
     });
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
+    console.log(colors.cyan(`MongoDB Connected: ${conn.connection.host}`));
   } catch (error) {
-    console.error(`Error: ${error.message}`);
+    console.error(colors.red(`Error: ${error.message}`));
     process.exit(1);
   }
 };

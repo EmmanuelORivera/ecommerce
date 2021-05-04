@@ -40,6 +40,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var mongoose_1 = __importDefault(require("mongoose"));
+var colors_1 = __importDefault(require("colors"));
 var connectDB = function () { return __awaiter(void 0, void 0, void 0, function () {
     var conn, error_1;
     return __generator(this, function (_a) {
@@ -53,11 +54,11 @@ var connectDB = function () { return __awaiter(void 0, void 0, void 0, function 
                     })];
             case 1:
                 conn = _a.sent();
-                console.log("MongoDB Connected: " + conn.connection.host);
+                console.log(colors_1.default.cyan("MongoDB Connected: " + conn.connection.host));
                 return [3 /*break*/, 3];
             case 2:
                 error_1 = _a.sent();
-                console.error("Error: " + error_1.message);
+                console.error(colors_1.default.red("Error: " + error_1.message));
                 process.exit(1);
                 return [3 /*break*/, 3];
             case 3: return [2 /*return*/];
