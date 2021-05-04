@@ -5,8 +5,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
 var dotenv_1 = __importDefault(require("dotenv"));
+var db_1 = __importDefault(require("./config/db"));
 var products_1 = __importDefault(require("./data/products"));
 dotenv_1.default.config();
+db_1.default();
 var app = express_1.default();
 app.get('/', function (req, res) {
     res.send('API is running....');
