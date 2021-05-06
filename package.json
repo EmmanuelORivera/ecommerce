@@ -2,11 +2,14 @@
   "name": "onlineshop",
   "version": "1.0.0",
   "description": "MERN shopping cart app using TS",
-  "main": "dist/server.js",
+  "main": "backend/dist/server.js",
   "scripts": {
+    "ts:node": "ts-node --project ./backend/tsconfig.json",
     "client": "npm start --prefix frontend",
-    "dev-server": "concurrently -k \"tsc -p backend/tsconfig.json -w\" \"nodemon ./backend/dist/server.js\"",
-    "dev": "concurrently \"npm run dev-server\" \"npm run client\""
+    "dev-server": "nodemon",
+    "dev": "concurrently \"npm run dev-server\" \"npm run client\"",
+    "data:import": "npm run ts:node ./backend/src/seeder",
+    "data:destroy": "npm run ts:node ./backend/src/seeder -- -d"
   },
   "author": "Emmanuel Ochoa Rivera",
   "license": "MIT",
@@ -26,6 +29,7 @@
   "devDependencies": {
     "concurrently": "^6.0.2",
     "nodemon": "^2.0.7",
-    "ts-node": "^9.1.1"
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
   }
 }
