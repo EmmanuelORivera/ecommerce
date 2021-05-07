@@ -1,5 +1,6 @@
-import { Router, Request, Response } from 'express';
+import { Router, Request, Response, NextFunction } from 'express';
 import asyncHandler from 'express-async-handler';
+import ProductNotFoundException from '../exceptions/ProductNotFoundException';
 import ProductModel from '../models/product/model';
 
 const router = Router();
@@ -20,12 +21,13 @@ router.get(
 // @access  Public
 router.get(
   '/:id',
-  asyncHandler(async (req: Request, res: Response) => {
+  asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const product = await ProductModel.findById(req.params.id);
     if (product) {
       res.json(product);
     } else {
-      res.status(404).json({ message: 'Product not found' });
+      const error = new ProductNotFoundException(req.params.id);
+      next(error);
     }
   })
 );
