@@ -2,7 +2,8 @@ import express, { Request, Response } from 'express';
 import dotenv from 'dotenv';
 import colors from 'colors/safe';
 import connectDB from './config/db';
-import products, { IProduct } from './data/products';
+
+import productRoutes from './routes/productRoutes';
 
 dotenv.config();
 
@@ -14,16 +15,7 @@ app.get('/', (req: Request, res: Response) => {
   res.send('API is running....');
 });
 
-app.get('/api/products', (req: Request, res: Response) => {
-  res.json(products);
-});
-
-app.get('/api/products/:id', (req: Request<{ id: string }>, res: Response) => {
-  // const product: IProduct | undefined = products.find(
-  //   (product) => product._id === req.params.id
-  // );
-  // product ? res.json(product) : res.json({ msg: 'No existe ese producto' });
-});
+app.use('/api/products', productRoutes);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () =>
