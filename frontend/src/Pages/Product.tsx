@@ -1,10 +1,10 @@
 import React, { FC, useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../redux';
 import { RouteComponentProps } from 'react-router-dom';
 import Button from '../Components/Button/Button';
 import Rating from '../Components/Rating/Rating';
 import './Product.css';
-import { fetchProduct } from '../redux/slices/productSlice';
+import { fetchProduct } from '../redux';
 interface ProductProps extends RouteComponentProps<{ id: string }> {}
 
 const Product: FC<ProductProps> = ({ match }) => {

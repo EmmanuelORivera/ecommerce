@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import Product from '../Components/Product/Product';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import './Home.css';
-import { fetchProducts } from '../redux/slices/productListSlice';
+import { fetchProducts } from '../redux/';
 import { IProduct } from '../products';
 const Home = () => {
   const { products } = useAppSelector((state) => state.productList);
