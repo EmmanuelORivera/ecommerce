@@ -1,27 +1,20 @@
-import React, { FC, useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { FC, useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import { RouteComponentProps } from 'react-router-dom';
 import Button from '../Components/Button/Button';
 import Rating from '../Components/Rating/Rating';
-import { IProduct } from '../products';
 import './Product.css';
+import { fetchProduct } from '../redux/slices/productSlice';
 interface ProductProps extends RouteComponentProps<{ id: string }> {}
 
 const Product: FC<ProductProps> = ({ match }) => {
-  const [product, setProduct] = useState<IProduct | undefined>(undefined);
+  const dispatch = useAppDispatch();
+  const { product } = useAppSelector((state) => state.product);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const { data } = await axios.get(`/api/products/${match.params.id}`);
-        setProduct(data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
+    dispatch(fetchProduct(match.params.id));
+  }, [dispatch, match.params.id]);
 
-    fetchProducts();
-  }, [match.params.id]);
   if (!product) return null;
   return (
     <>
@@ -37,15 +30,15 @@ const Product: FC<ProductProps> = ({ match }) => {
             value={product.rating}
             text={`${product.numReviews} reviews`}
           />
-          <div className='margin-2'>
+          <div>
             <strong>Price: </strong> ${product.price}
           </div>
-          <div className='margin-2'>
+          <div>
             <strong>Description: </strong> {product.description}
           </div>
         </div>
         <div className='product__add-cart wrapper'>
-          <div className='test'>
+          <div className='product__border'>
             <div className='product__add-cart-info'>
               <strong>Price:</strong> <span>${product.price}</span>
             </div>

@@ -1,32 +1,37 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import HTTP_STATUS from '../enum';
 import { IProduct } from '../../products';
-interface ProductsState {
-  products: Array<IProduct>;
+import HTTP_STATUS from '../enum';
+
+interface ProductState {
   loading: HTTP_STATUS;
+  product: IProduct;
 }
 
-export const fetchProducts = createAsyncThunk(
-  'products/fetchProducts',
-  async () => {
-    const { data } = await axios.get('/api/products');
+export const fetchProduct = createAsyncThunk(
+  'product/fetchProduct',
+  async (urlID: string) => {
+    const { data } = await axios.get(`/api/products/${urlID}`);
     return data;
   }
 );
-export const productSlice = createSlice({
-  name: 'products',
-  initialState: { products: [], loading: HTTP_STATUS.IDLE } as ProductsState,
+
+const productSlice = createSlice({
+  name: 'product',
+  initialState: {
+    loading: HTTP_STATUS.IDLE,
+    product: {},
+  } as ProductState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchProducts.pending, (state, action) => {
+    builder.addCase(fetchProduct.pending, (state) => {
       state.loading = HTTP_STATUS.PENDING;
     });
-    builder.addCase(fetchProducts.fulfilled, (state, action) => {
+    builder.addCase(fetchProduct.fulfilled, (state, action) => {
       state.loading = HTTP_STATUS.FULLFILED;
-      state.products = action.payload;
+      state.product = action.payload;
     });
-    builder.addCase(fetchProducts.rejected, (state, action) => {
+    builder.addCase(fetchProduct.rejected, (state) => {
       state.loading = HTTP_STATUS.REJECTED;
     });
   },
