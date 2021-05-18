@@ -1,0 +1,7 @@
+enum HTTP_STATUS {
+  IDLE = 'IDLE',
+  PENDING = 'PENDING',
+  FULLFILED = 'FULLFILED',
+  REJECTED = 'REJECTED',
+}
+export default HTTP_STATUS;

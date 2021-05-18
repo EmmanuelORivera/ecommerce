@@ -1,28 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
 import Product from '../Components/Product/Product';
-import { IProduct } from '../products';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
 import './Home.css';
+import { fetchProducts } from '../redux/slices/productSlice';
+import { IProduct } from '../products';
 const Home = () => {
-  const [products, setProducts] = useState<Array<IProduct>>([]);
-
+  const { products } = useAppSelector((state) => state.productList);
+  const dispatch = useAppDispatch();
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const { data } = await axios.get('/api/products');
-        setProducts(data);
-      } catch (err) {
-        console.error(err);
-      }
-    };
-
-    fetchProducts();
-  }, []);
+    dispatch(fetchProducts());
+  }, [dispatch]);
   return (
     <>
       <h1>Latest Products</h1>
       <div className='latest-products'>
-        {products.map((product) => (
+        {products.map((product: IProduct) => (
           <Product product={product} key={product._id} />
         ))}
       </div>
