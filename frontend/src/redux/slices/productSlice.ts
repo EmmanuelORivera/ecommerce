@@ -1,38 +1,55 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { IProduct } from '../../products';
 import HTTP_STATUS from '../enum';
+import { IBaseState, ValidationErrors } from './types';
 
-interface ProductState {
-  loading: HTTP_STATUS;
+interface IProductState extends IBaseState {
   product: IProduct;
 }
 
-export const fetchProduct = createAsyncThunk(
-  'product/fetchProduct',
-  async (urlID: string) => {
+export const fetchProduct = createAsyncThunk<
+  IProduct,
+  { urlID: string },
+  { rejectValue: ValidationErrors }
+>('product/fetchProduct', async ({ urlID }, { rejectWithValue }) => {
+  try {
     const { data } = await axios.get(`/api/products/${urlID}`);
     return data;
+  } catch (err) {
+    let error: AxiosError<ValidationErrors> = err;
+    if (!error.response) {
+      throw err;
+    }
+    return rejectWithValue(error.response.data);
   }
-);
+});
+
+const initialState = {
+  status: HTTP_STATUS.IDLE,
+  product: {},
+  errorMessage: '',
+} as IProductState;
 
 const productSlice = createSlice({
   name: 'product',
-  initialState: {
-    loading: HTTP_STATUS.IDLE,
-    product: {},
-  } as ProductState,
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchProduct.pending, (state) => {
-      state.loading = HTTP_STATUS.PENDING;
+      state.status = HTTP_STATUS.PENDING;
     });
     builder.addCase(fetchProduct.fulfilled, (state, action) => {
-      state.loading = HTTP_STATUS.FULLFILED;
+      state.status = HTTP_STATUS.IDLE;
       state.product = action.payload;
     });
-    builder.addCase(fetchProduct.rejected, (state) => {
-      state.loading = HTTP_STATUS.REJECTED;
+    builder.addCase(fetchProduct.rejected, (state, action) => {
+      state.status = HTTP_STATUS.REJECTED;
+      if (action.payload) {
+        state.errorMessage = action.payload.message;
+      } else {
+        state.errorMessage = action.error.message;
+      }
     });
   },
 });

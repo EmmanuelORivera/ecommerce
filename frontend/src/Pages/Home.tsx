@@ -1,11 +1,15 @@
 import React, { useEffect } from 'react';
 import Product from '../Components/Product/Product';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../redux';
 import './Home.css';
 import { fetchProducts } from '../redux/';
 import { IProduct } from '../products';
+import HTTP_STATUS from '../redux/enum';
+
 const Home = () => {
-  const { products } = useAppSelector((state) => state.productList);
+  const { products, status, errorMessage } = useAppSelector(
+    (state) => state.productList
+  );
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchProducts());
@@ -13,11 +17,15 @@ const Home = () => {
   return (
     <>
       <h1>Latest Products</h1>
-      <div className='latest-products'>
-        {products.map((product: IProduct) => (
-          <Product product={product} key={product._id} />
-        ))}
-      </div>
+      {status === HTTP_STATUS.PENDING && <div>Loading</div>}
+      {status === HTTP_STATUS.REJECTED && <div>{errorMessage}</div>}
+      {status === HTTP_STATUS.IDLE && (
+        <div className='latest-products'>
+          {products.map((product: IProduct) => (
+            <Product product={product} key={product._id} />
+          ))}
+        </div>
+      )}
     </>
   );
 };
