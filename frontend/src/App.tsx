@@ -4,7 +4,8 @@ import Header from './Components/Header/Header';
 import Home from './Pages/Home';
 import Product from './Pages/Product';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import ScrollToTop from './Components/Helper/ScrollToTop';
+import ScrollToTop from './Utils/ScrollToTop';
+import Cart from './Pages/Cart';
 function App() {
   return (
     <Router>
@@ -15,6 +16,7 @@ function App() {
           <Switch>
             <Route path='/' component={Home} exact />
             <Route path='/product/:id' component={Product} />
+            <Route path='/cart/:id?' component={Cart} />
           </Switch>
         </main>
       </div>

@@ -1,8 +1,9 @@
 :root {
   --border-radius: 0.4em;
+  --box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.09);
 }
 .card {
-  box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.09);
+  box-shadow: var(--box-shadow);
   border-radius: var(--border-radius);
   background-color: white;
 }

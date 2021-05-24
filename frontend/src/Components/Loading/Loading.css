@@ -1,0 +1,26 @@
+.spin-wrapper {
+  text-align: center;
+}
+.spin-wrapper > * {
+  margin: 0.5em 0;
+}
+.spin {
+  display: inline-block;
+  width: 4em;
+  height: 4em;
+  border: 3px solid #f2f2f2;
+  border-radius: 50%;
+  border-top-color: var(--primary-color);
+  animation: spin 1s ease-in-out infinite;
+  -webkit-animation: spin 1s ease-in-out infinite;
+}
+.spin__title {
+  font-weight: bold;
+  font-size: 1.5em;
+  display: block;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}

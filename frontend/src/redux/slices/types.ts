@@ -6,5 +6,5 @@ export interface IBaseState {
 }
 export interface ValidationErrors {
   message: string;
-  stack: string;
+  stack: string | null;
 }

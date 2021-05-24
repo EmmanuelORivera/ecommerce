@@ -8,13 +8,13 @@ interface IProductState extends IBaseState {
   product: IProduct;
 }
 
-export const fetchProduct = createAsyncThunk<
+export const fetchProductDetails = createAsyncThunk<
   IProduct,
-  { urlID: string },
+  { id: string },
   { rejectValue: ValidationErrors }
->('product/fetchProduct', async ({ urlID }, { rejectWithValue }) => {
+>('product/fetchProduct', async ({ id }, { rejectWithValue }) => {
   try {
-    const { data } = await axios.get(`/api/products/${urlID}`);
+    const { data } = await axios.get(`/api/products/${id}`);
     return data;
   } catch (err) {
     let error: AxiosError<ValidationErrors> = err;
@@ -31,19 +31,19 @@ const initialState = {
   errorMessage: '',
 } as IProductState;
 
-const productSlice = createSlice({
+const productDetailsSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(fetchProduct.pending, (state) => {
+    builder.addCase(fetchProductDetails.pending, (state) => {
       state.status = HTTP_STATUS.PENDING;
     });
-    builder.addCase(fetchProduct.fulfilled, (state, action) => {
+    builder.addCase(fetchProductDetails.fulfilled, (state, action) => {
       state.status = HTTP_STATUS.IDLE;
       state.product = action.payload;
     });
-    builder.addCase(fetchProduct.rejected, (state, action) => {
+    builder.addCase(fetchProductDetails.rejected, (state, action) => {
       state.status = HTTP_STATUS.REJECTED;
       if (action.payload) {
         state.errorMessage = action.payload.message;
@@ -54,4 +54,4 @@ const productSlice = createSlice({
   },
 });
 
-export default productSlice.reducer;
+export default productDetailsSlice.reducer;

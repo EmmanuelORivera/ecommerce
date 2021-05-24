@@ -1,3 +1,3 @@
 export { useAppSelector, useAppDispatch } from './hooks';
-export { fetchProduct } from './slices/productSlice';
+export { fetchProductDetails } from './slices/productDetailsSlice';
 export { fetchProducts } from './slices/productListSlice';
