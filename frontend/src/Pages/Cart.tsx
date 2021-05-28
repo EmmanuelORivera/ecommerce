@@ -1,9 +1,14 @@
 import React, { FC, useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../redux';
-import { cartSelector, addToCart } from '../redux/slices/cartSlice';
+import {
+  cartSelector,
+  addToCart,
+  removeFromCart,
+} from '../redux/slices/cartSlice';
 import AlertMessage from '../Components/AlertMessage/AlertMessage';
 import './Cart.css';
+import { ICartProduct } from '../redux/slices/types';
 interface Props extends RouteComponentProps<{ id: string }> {}
 
 const Cart: FC<Props> = ({ match, location, history }) => {
@@ -27,7 +32,12 @@ const Cart: FC<Props> = ({ match, location, history }) => {
     }
   }, [dispatch, productId, quantity]);
 
-  const checkoutHandler = () => history.push('login?redirect=shipping');
+  const checkoutHandler = () => {
+    history.push('/login?redirect=shipping');
+  };
+  const deleteHandler = (cartItem: ICartProduct) => {
+    dispatch(removeFromCart(cartItem.product));
+  };
   return (
     <>
       <h1>Shopping Cart</h1>
@@ -78,7 +88,7 @@ const Cart: FC<Props> = ({ match, location, history }) => {
                   <div className='shopping__item-delete'>
                     <button
                       type='button'
-                      onClick={(e) => console.log('delete')}
+                      onClick={(e) => deleteHandler(cartItem)}
                     >
                       <i className='fa fa-trash' />
                     </button>
