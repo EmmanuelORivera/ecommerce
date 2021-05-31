@@ -1,19 +1,22 @@
 import { NextFunction, Response, Request } from 'express';
+import HttpStatusCode from '../exceptions/enum';
 import HttpException from '../exceptions/HttpException';
 
 const notFound = (req: Request, res: Response, next: NextFunction) => {
-  const NOT_FOUND = 404;
-  const error = new HttpException(NOT_FOUND, `Not Found - ${req.originalUrl}`);
+  const error = new HttpException(
+    HttpStatusCode.NOT_FOUND,
+    `Not Found - ${req.originalUrl}`
+  );
   next(error);
 };
 
 const errorHandler = (
-  err: Error,
+  err: HttpException,
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const status = res.statusCode === 200 ? 500 : res.statusCode;
+  const status = err.status || HttpStatusCode.INTERNAL_SERVER_ERROR;
   res.status(status);
   res.json({
     message: err.message,
