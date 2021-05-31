@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 import { IProduct } from '../../products';
-import HTTP_STATUS from '../enum';
+import StatusCode from '../enum';
 import { IBaseState, ValidationErrors } from './types';
 
 interface IProductState extends IBaseState {
@@ -26,7 +26,7 @@ export const fetchProductDetails = createAsyncThunk<
 });
 
 const initialState = {
-  status: HTTP_STATUS.IDLE,
+  status: StatusCode.IDLE,
   product: {},
   errorMessage: '',
 } as IProductState;
@@ -37,14 +37,14 @@ const productDetailsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(fetchProductDetails.pending, (state) => {
-      state.status = HTTP_STATUS.PENDING;
+      state.status = StatusCode.PENDING;
     });
     builder.addCase(fetchProductDetails.fulfilled, (state, action) => {
-      state.status = HTTP_STATUS.IDLE;
+      state.status = StatusCode.IDLE;
       state.product = action.payload;
     });
     builder.addCase(fetchProductDetails.rejected, (state, action) => {
-      state.status = HTTP_STATUS.REJECTED;
+      state.status = StatusCode.REJECTED;
       if (action.payload) {
         state.errorMessage = action.payload.message;
       } else {

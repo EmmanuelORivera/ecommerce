@@ -9,7 +9,7 @@ import {
 import { IBaseState, ValidationErrors, ICartProduct } from './types';
 import { AppDispatch, RootState } from '../store';
 import { IProduct } from '../../products';
-import HTTP_STATUS from '../enum';
+import StatusCode from '../enum';
 
 interface IProductState extends IBaseState {
   cartItems: Array<ICartProduct>;
@@ -84,7 +84,7 @@ export const removeFromCart =
 
 const initialState: IProductState = {
   cartItems: [],
-  status: HTTP_STATUS.IDLE,
+  status: StatusCode.IDLE,
   errorMessage: '',
 };
 
@@ -113,13 +113,13 @@ const cartSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(addToCart.pending, (state) => {
-      state.status = HTTP_STATUS.IDLE;
+      state.status = StatusCode.IDLE;
     });
     builder.addCase(addToCart.fulfilled, (state, action) => {
       state.cartItems = action.payload;
     });
     builder.addCase(addToCart.rejected, (state, action) => {
-      state.status = HTTP_STATUS.REJECTED;
+      state.status = StatusCode.REJECTED;
       if (action.payload) {
         state.errorMessage = action.payload.message;
       } else {
