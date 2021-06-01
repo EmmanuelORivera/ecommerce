@@ -5,6 +5,7 @@ import HttpException from '../exceptions/HttpException';
 import User from '../models/user/model';
 
 interface IUserInfo {
+  name: string;
   email: string;
   password: string;
 }
@@ -30,8 +31,38 @@ const authUser = asyncHandler(async (req, res, next) => {
       HttpStatusCode.UNAUTHORIZED,
       'Invalid email or password'
     );
-    console.log(error);
     next(error);
+  }
+});
+
+// desc     Register a new user
+// @route   POST /api/users
+// @access  Public
+
+const registerUser = asyncHandler(async (req, res, next) => {
+  const { name, email, password } = req.body as IUserInfo;
+
+  const userExists = await User.findOne({ email });
+
+  if (userExists) {
+    next(new HttpException(HttpStatusCode.BAD_REQUEST, 'User already exists'));
+  }
+  const user = await User.create({
+    name,
+    email,
+    password,
+  });
+
+  if (user) {
+    res.status(HttpStatusCode.CREATED).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+      token: generateToken(user._id),
+    });
+  } else {
+    next(new HttpException(HttpStatusCode.BAD_REQUEST, 'Invalid user data'));
   }
 });
 
@@ -41,7 +72,6 @@ const authUser = asyncHandler(async (req, res, next) => {
 
 const getUserProfile = asyncHandler(async (req, res, next) => {
   const user = await User.findById(req.user._id);
-  console.log({ user });
   if (user) {
     res.json({
       _id: user._id,
@@ -53,4 +83,4 @@ const getUserProfile = asyncHandler(async (req, res, next) => {
     next(new HttpException(HttpStatusCode.NOT_FOUND, 'User not found'));
   }
 });
-export { authUser, getUserProfile };
+export { authUser, getUserProfile, registerUser };
