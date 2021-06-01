@@ -31,4 +31,13 @@ UserSchema.methods.matchPassword = async function (
 ) {
   return await bcrypt.compare(enteredPassword, this.password);
 };
+
+UserSchema.pre('save', async function (this: IUserDocument, next) {
+  if (!this.isModified('password')) {
+    next();
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
 export default UserSchema;
