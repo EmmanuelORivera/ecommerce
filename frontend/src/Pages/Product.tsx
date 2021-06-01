@@ -5,7 +5,7 @@ import Button from '../Components/Button/Button';
 import Rating from '../Components/Rating/Rating';
 import './Product.css';
 import { fetchProductDetails } from '../redux';
-import HTTP_STATUS from '../redux/enum';
+import StatusCode from '../redux/enum';
 import Loading from '../Components/Loading/Loading';
 import AlertMessage from '../Components/AlertMessage/AlertMessage';
 interface ProductProps extends RouteComponentProps<{ id: string }> {}
@@ -36,11 +36,11 @@ const Product: FC<ProductProps> = ({ match, history }) => {
     <>
       <Button text='Go Back' />
 
-      {status === HTTP_STATUS.PENDING && <Loading />}
-      {status === HTTP_STATUS.REJECTED && (
+      {status === StatusCode.PENDING && <Loading />}
+      {status === StatusCode.REJECTED && (
         <AlertMessage variant='error' message={errorMessage} />
       )}
-      {status === HTTP_STATUS.IDLE && (
+      {status === StatusCode.IDLE && (
         <div className='product__wrapper'>
           <div className='product__image'>
             <img src={product.image} alt={product.name} />

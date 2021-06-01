@@ -9,6 +9,8 @@ export class User {
   ) {}
 }
 
-export interface IUserDocument extends User, Document {}
+export interface IUserDocument extends User, Document {
+  matchPassword(enteredPassword: string): Promise<boolean>;
+}
 
 export interface IUserModel extends Model<IUserDocument> {}
