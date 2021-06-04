@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from '../redux';
 import './Home.css';
 import { fetchProducts } from '../redux/';
 import { IProduct } from '../products';
-import HTTP_STATUS from '../redux/enum';
+import StatusCode from '../redux/enum';
 import Loading from '../Components/Loading/Loading';
 import AlertMessage from '../Components/AlertMessage/AlertMessage';
 
@@ -19,11 +19,11 @@ const Home = () => {
   return (
     <>
       <h1>Latest Products</h1>
-      {status === HTTP_STATUS.PENDING && <Loading />}
-      {status === HTTP_STATUS.REJECTED && (
+      {status === StatusCode.PENDING && <Loading />}
+      {status === StatusCode.REJECTED && (
         <AlertMessage message={errorMessage} variant={'error'} />
       )}
-      {status === HTTP_STATUS.IDLE && (
+      {status === StatusCode.IDLE && (
         <div className='latest-products'>
           {products.map((product: IProduct) => (
             <Product product={product} key={product._id} />

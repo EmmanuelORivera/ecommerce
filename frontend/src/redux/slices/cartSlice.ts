@@ -1,18 +1,15 @@
 import axios, { AxiosError } from 'axios';
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { IBaseState, ValidationErrors } from './types';
-import { RootState } from '../store';
+import {
+  AnyAction,
+  createAsyncThunk,
+  createSlice,
+  PayloadAction,
+  ThunkAction,
+} from '@reduxjs/toolkit';
+import { IBaseState, ValidationErrors, ICartProduct } from './types';
+import { AppDispatch, RootState } from '../store';
 import { IProduct } from '../../products';
-import HTTP_STATUS from '../enum';
-
-interface ICartProduct {
-  product: string;
-  name: string;
-  image: string;
-  price: number;
-  countInStock: number;
-  quantity: number;
-}
+import StatusCode from '../enum';
 
 interface IProductState extends IBaseState {
   cartItems: Array<ICartProduct>;
@@ -37,17 +34,17 @@ export const addToCart = createAsyncThunk<
 
     const state = getState().cart;
 
-    const findFetchedItemOnCurrentState = state.cartItems.find(
+    const fetchedItemOnCurrentState = state.cartItems.find(
       (cartItem) => cartItem.product === cartProduct.product
     );
 
     const returnCartItems = () => {
-      if (findFetchedItemOnCurrentState) {
+      if (fetchedItemOnCurrentState) {
         //make a copy and update only the ( CARTITEM ) that needs to be changed
         const { cartItems } = {
           ...state,
           cartItems: state.cartItems.map((cartItem) =>
-            cartItem.product === findFetchedItemOnCurrentState.product
+            cartItem.product === fetchedItemOnCurrentState.product
               ? cartProduct
               : cartItem
           ),
@@ -75,9 +72,19 @@ export const addToCart = createAsyncThunk<
   }
 });
 
+export const removeFromCart =
+  (id: string): ThunkAction<void, RootState, unknown, AnyAction> =>
+  (dispatch, getState) => {
+    dispatch(removeItem(id));
+    localStorage.setItem(
+      'cartItems',
+      JSON.stringify(getState().cart.cartItems)
+    );
+  };
+
 const initialState: IProductState = {
   cartItems: [],
-  status: HTTP_STATUS.IDLE,
+  status: StatusCode.IDLE,
   errorMessage: '',
 };
 
@@ -98,16 +105,21 @@ const cartSlice = createSlice({
         state.cartItems.push(item);
       }
     },
+    removeItem: (state, action: PayloadAction<string>) => {
+      state.cartItems = state.cartItems.filter(
+        (cartItem) => cartItem.product !== action.payload
+      );
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(addToCart.pending, (state) => {
-      state.status = HTTP_STATUS.IDLE;
+      state.status = StatusCode.IDLE;
     });
     builder.addCase(addToCart.fulfilled, (state, action) => {
       state.cartItems = action.payload;
     });
     builder.addCase(addToCart.rejected, (state, action) => {
-      state.status = HTTP_STATUS.REJECTED;
+      state.status = StatusCode.REJECTED;
       if (action.payload) {
         state.errorMessage = action.payload.message;
       } else {
@@ -118,5 +130,5 @@ const cartSlice = createSlice({
 });
 
 export default cartSlice.reducer;
-export const { addItem } = cartSlice.actions;
+export const { addItem, removeItem } = cartSlice.actions;
 export const cartSelector = (state: RootState) => state.cart;

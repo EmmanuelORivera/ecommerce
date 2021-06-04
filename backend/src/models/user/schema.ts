@@ -1,5 +1,7 @@
 import { Schema } from 'mongoose';
-const UserSchema: Schema = new Schema(
+import bcrypt from 'bcryptjs';
+import { IUserDocument, IUserModel } from './types';
+const UserSchema: Schema<IUserDocument, IUserModel> = new Schema(
   {
     name: {
       type: String,
@@ -23,4 +25,19 @@ const UserSchema: Schema = new Schema(
   { timestamps: true }
 );
 
+UserSchema.methods.matchPassword = async function (
+  this: IUserDocument,
+  enteredPassword
+) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
+UserSchema.pre('save', async function (this: IUserDocument, next) {
+  if (!this.isModified('password')) {
+    next();
+  }
+
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
+});
 export default UserSchema;
