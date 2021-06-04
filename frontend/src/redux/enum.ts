@@ -1,7 +1,7 @@
-enum HTTP_STATUS {
+enum StatusCode {
   IDLE = 'IDLE',
   PENDING = 'PENDING',
   FULLFILED = 'FULLFILED',
   REJECTED = 'REJECTED',
 }
-export default HTTP_STATUS;
+export default StatusCode;
