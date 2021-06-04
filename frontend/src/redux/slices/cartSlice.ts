@@ -7,7 +7,7 @@ import {
   ThunkAction,
 } from '@reduxjs/toolkit';
 import { IBaseState, ValidationErrors, ICartProduct } from './types';
-import { AppDispatch, RootState } from '../store';
+import { RootState } from '../store';
 import { IProduct } from '../../products';
 import StatusCode from '../enum';
 
@@ -34,17 +34,17 @@ export const addToCart = createAsyncThunk<
 
     const state = getState().cart;
 
-    const fetchedItemOnCurrentState = state.cartItems.find(
+    const existFetchedOnState = state.cartItems.find(
       (cartItem) => cartItem.product === cartProduct.product
     );
 
-    const returnCartItems = () => {
-      if (fetchedItemOnCurrentState) {
+    const getCartItems = () => {
+      if (existFetchedOnState) {
         //make a copy and update only the ( CARTITEM ) that needs to be changed
         const { cartItems } = {
           ...state,
           cartItems: state.cartItems.map((cartItem) =>
-            cartItem.product === fetchedItemOnCurrentState.product
+            cartItem.product === existFetchedOnState.product
               ? cartProduct
               : cartItem
           ),
@@ -62,7 +62,7 @@ export const addToCart = createAsyncThunk<
       }
     };
 
-    return returnCartItems();
+    return getCartItems();
   } catch (err) {
     let error: AxiosError<ValidationErrors> = err;
     if (!error.response) {
