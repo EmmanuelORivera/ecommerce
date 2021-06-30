@@ -6,6 +6,7 @@ import Product from './Pages/Product';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ScrollToTop from './Utils/ScrollToTop';
 import Cart from './Pages/Cart';
+import Login from './Pages/Login';
 function App() {
   return (
     <Router>
@@ -16,6 +17,7 @@ function App() {
           <Switch>
             <Route path='/' component={Home} exact />
             <Route path='/product/:id' component={Product} />
+            <Route path='/login' component={Login} />
             <Route path='/cart/:id?' component={Cart} />
           </Switch>
         </main>

@@ -1,13 +1,22 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import StatusCode from '../enum';
 import axios, { AxiosError } from 'axios';
 import { IBaseState, ValidationErrors } from './types';
+import { useAppSelector } from '../hooks';
+import { AppDispatch, RootState } from '../store';
 
+type UserInfo = {
+  _id: string;
+  name: string;
+  email: string;
+  isAdmin: boolean;
+  token: string;
+};
 interface IUserState extends IBaseState {
-  userInfo: {};
+  userInfo: UserInfo | null;
 }
 export const fetchUser = createAsyncThunk<
-  { userInfo: any },
+  UserInfo,
   { email: string; password: string },
   { rejectValue: ValidationErrors }
 >('user/fetchUser', async ({ email, password }, { rejectWithValue }) => {
@@ -38,12 +47,24 @@ export const fetchUser = createAsyncThunk<
 const initialState: IUserState = {
   status: StatusCode.IDLE,
   errorMessage: '',
-  userInfo: {},
+  userInfo: {
+    _id: '',
+    name: '',
+    email: '',
+    isAdmin: false,
+    token: '',
+  },
 };
 const userSlice = createSlice({
   initialState,
   name: 'user',
-  reducers: {},
+  reducers: {
+    logout(state) {
+      console.log({ initialState });
+      localStorage.removeItem('userInfo');
+      state.userInfo = null;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchUser.pending, (state) => {
       state.status = StatusCode.PENDING;
@@ -63,4 +84,6 @@ const userSlice = createSlice({
   },
 });
 
+export const { logout } = userSlice.actions;
 export default userSlice.reducer;
+export const userLoginSelector = (state: RootState) => state.userLogin;

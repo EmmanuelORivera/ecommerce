@@ -4,7 +4,7 @@ import StatusCode from '../enum';
 import { IProduct } from '../../products';
 import { IBaseState, ValidationErrors } from './types';
 
-interface ProductsState extends IBaseState {
+interface IProductsState extends IBaseState {
   products: Array<IProduct>;
 }
 
@@ -29,7 +29,7 @@ const initialState = {
   products: [],
   status: StatusCode.IDLE,
   errorMessage: '',
-} as ProductsState;
+} as IProductsState;
 
 export const productSlice = createSlice({
   name: 'products',
