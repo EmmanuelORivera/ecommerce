@@ -5,7 +5,7 @@ import './Home.css';
 import { fetchProducts } from '../redux/';
 import { IProduct } from '../products';
 import StatusCode from '../redux/enum';
-import Loading from '../Components/Loading/Loading';
+import Loader from '../Components/Loader/Loader';
 import AlertMessage from '../Components/AlertMessage/AlertMessage';
 
 const Home = () => {
@@ -19,7 +19,7 @@ const Home = () => {
   return (
     <>
       <h1>Latest Products</h1>
-      {status === StatusCode.PENDING && <Loading />}
+      {status === StatusCode.PENDING && <Loader />}
       {status === StatusCode.REJECTED && (
         <AlertMessage message={errorMessage} variant={'error'} />
       )}

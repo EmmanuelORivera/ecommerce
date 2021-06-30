@@ -23,7 +23,7 @@ const Cart: FC<Props> = ({ match, location, history }) => {
 
   const dispatch = useAppDispatch();
 
-  const { cartItems, status, errorMessage } = useAppSelector(cartSelector);
+  const { cartItems } = useAppSelector(cartSelector);
 
   useEffect(() => {
     if (productId) {
@@ -63,7 +63,7 @@ const Cart: FC<Props> = ({ match, location, history }) => {
                   </div>
                   <div className='shopping__item-price'>${cartItem.price}</div>
                   <div className='shopping__item-quantity'>
-                    <form className=''>
+                    <form>
                       <select
                         value={cartItem.quantity}
                         onChange={(e) =>

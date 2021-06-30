@@ -1,9 +1,9 @@
 .alert-container {
-  position: relative;
   box-shadow: var(--box-shadow);
   margin: 0 auto;
   border-radius: 0.3em;
   padding: 1em;
+  margin: 2em 0;
 }
 .info {
   border-left: 0.4em solid #227dce;
@@ -15,14 +15,6 @@
 }
 .alert__title {
   margin: 0 0 0.4em;
-}
-.alert__close-btn {
-  position: absolute;
-  top: 10px;
-  right: 1em;
-  font-size: 2em;
-  cursor: pointer;
-  font-weight: bold;
 }
 .alert__close-btn:hover {
   color: black;

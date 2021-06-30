@@ -1,6 +1,6 @@
 import React from 'react';
-import './Loading.css';
-const Loading = () => {
+import './Loader.css';
+const Loader = () => {
   return (
     <div className='spin-wrapper'>
       <span className='spin__title'>Loading...</span>
@@ -9,4 +9,4 @@ const Loading = () => {
   );
 };
 
-export default Loading;
+export default Loader;
