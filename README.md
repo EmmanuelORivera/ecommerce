@@ -1,4 +1,4 @@
-# ProShop eCommerce Platform (This project is not finished YET)
+# OnlineShop eCommerce Platform (This project is not finished YET)
 
 > eCommerce platform built with the MERN stack & Redux.
 > Using only CSS,
