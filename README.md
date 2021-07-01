@@ -1,8 +1,8 @@
 # ProShop eCommerce Platform
 
 > eCommerce platform built with the MERN stack & Redux.
-> Using only CSS
-> TypeScript & ReduxToolkit version
+> Using only CSS,
+> TypeScript & ReduxToolkit
 
 ### Env Variables
 
