@@ -6,7 +6,7 @@ import {
   addToCart,
   removeFromCart,
 } from '../redux/slices/cartSlice';
-import AlertMessage from '../Components/AlertMessage/AlertMessage';
+import AlertMessage from '../Components/AlertMessage';
 import './Cart.css';
 import { ICartProduct } from '../redux/slices/types';
 interface Props extends RouteComponentProps<{ id: string }> {}

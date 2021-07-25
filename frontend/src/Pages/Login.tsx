@@ -1,7 +1,7 @@
 import React, { useState, useEffect, FC } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../redux';
-import AlertMessage from '../Components/AlertMessage/AlertMessage';
+import AlertMessage from '../Components/AlertMessage';
 import Loader from '../Components/Loader/Loader';
 import FormContainer from '../Components/FormContainer/FormContainer';
 import { fetchUser, userLoginSelector } from '../redux/slices/userSlice';

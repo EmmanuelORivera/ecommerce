@@ -1,5 +1,8 @@
 import React, { FC } from 'react';
-import './AlertMessage.css';
+import clsx from 'clsx';
+
+import './AlertMessage.scss';
+
 type Variant = 'info' | 'error';
 interface Props {
   variant: Variant;
@@ -8,9 +11,10 @@ interface Props {
 
 const AlertMessage: FC<Props> = ({ message, variant = 'info', children }) => {
   return (
-    <div className={`alert-container ${variant}`}>
-      <h2 className='alert__title'>{variant.toUpperCase()}</h2>
-      <p className='alert__message'>
+    // `AlertMessage ${variant}`
+    <div className={`AlertMessage ${`AlertMessage--${variant}`}`}>
+      <h2 className='AlertMessage__title'>{variant.toUpperCase()}</h2>
+      <p className='AlertMessage__text'>
         {message} {children}
       </p>
     </div>

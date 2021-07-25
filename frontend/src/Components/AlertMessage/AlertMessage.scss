@@ -1,0 +1,21 @@
+.AlertMessage {
+  box-shadow: var(--box-shadow);
+  margin: 0 auto;
+  border-radius: 0.3em;
+  padding: 1em;
+  margin: 2em 0;
+
+  &--error {
+    background-color: #d90d2320;
+    border-left: 0.45em solid #d90d23;
+  }
+
+  &--info {
+    border-left: 0.4em solid #227dce;
+    background-color: #227dce20;
+  }
+
+  &__title {
+    margin: 0 0 0.4em;
+  }
+}

@@ -12,16 +12,14 @@ function App() {
     <Router>
       <ScrollToTop />
       <Header />
-      <div className='wrapper'>
-        <main>
-          <Switch>
-            <Route path='/' component={Home} exact />
-            <Route path='/product/:id' component={Product} />
-            <Route path='/login' component={Login} />
-            <Route path='/cart/:id?' component={Cart} />
-          </Switch>
-        </main>
-      </div>
+      <main className='wrapper'>
+        <Switch>
+          <Route path='/' component={Home} exact />
+          <Route path='/product/:id' component={Product} />
+          <Route path='/login' component={Login} />
+          <Route path='/cart/:id?' component={Cart} />
+        </Switch>
+      </main>
       <Footer />
     </Router>
   );

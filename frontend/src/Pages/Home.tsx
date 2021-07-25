@@ -6,7 +6,7 @@ import { fetchProducts } from '../redux/';
 import { IProduct } from '../products';
 import StatusCode from '../redux/enum';
 import Loader from '../Components/Loader/Loader';
-import AlertMessage from '../Components/AlertMessage/AlertMessage';
+import AlertMessage from '../Components/AlertMessage';
 
 const Home = () => {
   const { products, status, errorMessage } = useAppSelector(

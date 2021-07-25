@@ -7,7 +7,7 @@ import './Product.css';
 import { fetchProductDetails } from '../redux';
 import StatusCode from '../redux/enum';
 import Loader from '../Components/Loader/Loader';
-import AlertMessage from '../Components/AlertMessage/AlertMessage';
+import AlertMessage from '../Components/AlertMessage';
 interface ProductProps extends RouteComponentProps<{ id: string }> {}
 
 const Product: FC<ProductProps> = ({ match, history }) => {
