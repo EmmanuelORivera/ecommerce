@@ -10,7 +10,6 @@ interface Props {
 
 const AlertMessage: FC<Props> = ({ message, variant = 'info', children }) => {
   return (
-    // `AlertMessage ${variant}`
     <div className={`AlertMessage ${`AlertMessage--${variant}`}`}>
       <h2 className='AlertMessage__title'>{variant.toUpperCase()}</h2>
       <p className='AlertMessage__text'>
