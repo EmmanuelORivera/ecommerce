@@ -10,11 +10,9 @@ interface Props {
 const Button: FC<Props> = ({ variant = 'link', children, style }) => {
   if (variant === 'link') {
     return (
-      <div>
-        <Link to='/' className='button'>
-          {children}
-        </Link>
-      </div>
+      <Link to='/' className='button'>
+        {children}
+      </Link>
     );
   } else {
     return (
