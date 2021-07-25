@@ -10,6 +10,7 @@ import { IBaseState, ValidationErrors, ICartProduct } from './types';
 import { RootState } from '../store';
 import { IProduct } from '../../products';
 import StatusCode from '../enum';
+import { getLocalStorageItem } from '../../Utils/browser';
 
 interface IProductState extends IBaseState {
   cartItems: Array<ICartProduct>;
@@ -83,7 +84,7 @@ export const removeFromCart =
   };
 
 const initialState: IProductState = {
-  cartItems: [],
+  cartItems: getLocalStorageItem<[]>('cartItems', []),
   status: StatusCode.IDLE,
   errorMessage: '',
 };

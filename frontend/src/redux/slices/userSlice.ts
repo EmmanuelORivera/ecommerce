@@ -1,9 +1,9 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import StatusCode from '../enum';
 import axios, { AxiosError } from 'axios';
 import { IBaseState, ValidationErrors } from './types';
-import { useAppSelector } from '../hooks';
-import { AppDispatch, RootState } from '../store';
+import { RootState } from '../store';
+import { getLocalStorageItem } from '../../Utils/browser';
 
 type UserInfo = {
   _id: string;
@@ -44,23 +44,17 @@ export const fetchUser = createAsyncThunk<
     return rejectWithValue(error.response.data);
   }
 });
+
 const initialState: IUserState = {
   status: StatusCode.IDLE,
   errorMessage: '',
-  userInfo: {
-    _id: '',
-    name: '',
-    email: '',
-    isAdmin: false,
-    token: '',
-  },
+  userInfo: getLocalStorageItem('userInfo', null),
 };
 const userSlice = createSlice({
   initialState,
   name: 'user',
   reducers: {
     logout(state) {
-      console.log({ initialState });
       localStorage.removeItem('userInfo');
       state.userInfo = null;
     },
