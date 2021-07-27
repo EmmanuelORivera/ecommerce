@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 import { IProduct } from '../../products';
 import StatusCode from '../enum';
-import { IBaseState, ValidationErrors } from './types';
+import { IBaseState, ValidationErrors } from '../types';
 
 interface IProductState extends IBaseState {
   product: IProduct;

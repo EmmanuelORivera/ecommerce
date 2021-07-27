@@ -6,7 +6,7 @@ import Button from '../Components/Button/Button';
 import Loader from '../Components/Loader/Loader';
 import FormContainer from '../Components/FormContainer/FormContainer';
 
-import { loginUser, registerUser } from '../redux/thunks/user';
+import { registerUser } from '../redux/thunks/user';
 import StatusCode from '../redux/enum';
 import { useAppSelector, useAppDispatch } from '../redux';
 import { userLoginSelector } from '../redux/slices/userSlice';
@@ -14,9 +14,12 @@ import './Login.css';
 
 interface Props extends RouteComponentProps {}
 
-const Login: FC<Props> = ({ location, history }) => {
+const Register: FC<Props> = ({ location, history }) => {
   const [email, setEmail] = useState('');
+  const [name, setName] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [message, setMessage] = useState('');
 
   const dispatch = useAppDispatch();
 
@@ -33,19 +36,31 @@ const Login: FC<Props> = ({ location, history }) => {
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(loginUser({ email, password }));
+    if (password !== confirmPassword) {
+      setMessage('Passwords do not match');
+    } else {
+      dispatch(registerUser({ email, name, password }));
+    }
   };
 
   return (
     <FormContainer>
       <div className='form__top'>
-        <h1>Sign In</h1>
+        <h1>Sign Up</h1>
         {status === StatusCode.PENDING && <Loader />}
         {status === StatusCode.REJECTED && (
           <AlertMessage variant='error' message={errorMessage} />
         )}
+        {message && <AlertMessage variant='error' message={message} />}
       </div>
       <form onSubmit={submitHandler} className='form__bottom'>
+        <label>Name</label>
+        <input
+          type='text'
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          className='input'
+        />
         <label>Email Address</label>
         <input
           type='email'
@@ -60,22 +75,29 @@ const Login: FC<Props> = ({ location, history }) => {
           onChange={(e) => setPassword(e.target.value)}
           className='input'
         />
+        <label>Confirm Password</label>
+        <input
+          type='password'
+          value={confirmPassword}
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          className='input'
+        />
         <Button
           variant='button'
           style={{ fontSize: '1em', alignSelf: 'center' }}
         >
-          Sign In
+          Register
         </Button>
       </form>
 
       <div className='register'>
-        New Customer?
-        <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
-          Register
+        Have an Account?
+        <Link to={redirect ? `/login?redirect=${redirect}` : '/login'}>
+          Login
         </Link>
       </div>
     </FormContainer>
   );
 };
 
-export default Login;
+export default Register;

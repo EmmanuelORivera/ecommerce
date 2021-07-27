@@ -1,73 +1,51 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import StatusCode from '../enum';
-import axios, { AxiosError } from 'axios';
-import { IBaseState, ValidationErrors } from './types';
-import { RootState } from '../store';
+import { createSlice } from '@reduxjs/toolkit';
+import { loginUser, registerUser } from '../thunks/user';
 import { getLocalStorageItem } from '../../Utils/browser';
+import { USER, USER_INFO } from '../../constants/redux';
 
-type UserInfo = {
-  _id: string;
-  name: string;
-  email: string;
-  isAdmin: boolean;
-  token: string;
-};
-interface IUserState extends IBaseState {
-  userInfo: UserInfo | null;
-}
-export const fetchUser = createAsyncThunk<
-  UserInfo,
-  { email: string; password: string },
-  { rejectValue: ValidationErrors }
->('user/fetchUser', async ({ email, password }, { rejectWithValue }) => {
-  try {
-    const config = {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    };
-
-    const { data } = await axios.post(
-      '/api/users/login',
-      { email, password },
-      config
-    );
-
-    localStorage.setItem('userInfo', JSON.stringify(data));
-
-    return data;
-  } catch (err) {
-    let error: AxiosError<ValidationErrors> = err;
-    if (!error.response) {
-      throw err;
-    }
-    return rejectWithValue(error.response.data);
-  }
-});
+//Types enums
+import StatusCode from '../enum';
+import { IUserState, RootState } from '../types';
 
 const initialState: IUserState = {
   status: StatusCode.IDLE,
   errorMessage: '',
-  userInfo: getLocalStorageItem('userInfo', null),
+  userInfo: getLocalStorageItem(USER_INFO, null),
 };
 const userSlice = createSlice({
   initialState,
-  name: 'user',
+  name: USER,
   reducers: {
     logout(state) {
-      localStorage.removeItem('userInfo');
+      localStorage.removeItem(USER_INFO);
       state.userInfo = null;
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchUser.pending, (state) => {
+    builder.addCase(loginUser.pending, (state) => {
       state.status = StatusCode.PENDING;
     });
-    builder.addCase(fetchUser.fulfilled, (state, action) => {
+    builder.addCase(loginUser.fulfilled, (state, action) => {
       state.status = StatusCode.IDLE;
       state.userInfo = action.payload;
     });
-    builder.addCase(fetchUser.rejected, (state, action) => {
+    builder.addCase(loginUser.rejected, (state, action) => {
+      state.status = StatusCode.REJECTED;
+      if (action.payload) {
+        state.errorMessage = action.payload.message;
+      } else {
+        state.errorMessage = action.error.message;
+      }
+    });
+
+    builder.addCase(registerUser.pending, (state) => {
+      state.status = StatusCode.PENDING;
+    });
+    builder.addCase(registerUser.fulfilled, (state, action) => {
+      state.status = StatusCode.IDLE;
+      state.userInfo = action.payload;
+    });
+    builder.addCase(registerUser.rejected, (state, action) => {
       state.status = StatusCode.REJECTED;
       if (action.payload) {
         state.errorMessage = action.payload.message;

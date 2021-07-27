@@ -8,7 +8,7 @@ import {
 } from '../redux/slices/cartSlice';
 import AlertMessage from '../Components/AlertMessage';
 import './Cart.css';
-import { ICartProduct } from '../redux/slices/types';
+import { ICartProduct } from '../redux/types';
 interface Props extends RouteComponentProps<{ id: string }> {}
 
 const Cart: FC<Props> = ({ match, location, history }) => {

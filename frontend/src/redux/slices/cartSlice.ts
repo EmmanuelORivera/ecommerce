@@ -6,8 +6,13 @@ import {
   PayloadAction,
   ThunkAction,
 } from '@reduxjs/toolkit';
-import { IBaseState, ValidationErrors, ICartProduct } from './types';
-import { RootState } from '../store';
+
+import {
+  IBaseState,
+  ICartProduct,
+  RootState,
+  ValidationErrors,
+} from '../types';
 import { IProduct } from '../../products';
 import StatusCode from '../enum';
 import { getLocalStorageItem } from '../../Utils/browser';
