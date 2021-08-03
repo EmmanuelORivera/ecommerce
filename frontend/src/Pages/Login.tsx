@@ -6,7 +6,7 @@ import Button from '../Components/Button/Button';
 import Loader from '../Components/Loader/Loader';
 import FormContainer from '../Components/FormContainer/FormContainer';
 
-import { loginUser, registerUser } from '../redux/thunks/user';
+import { loginUser } from '../redux/thunks/user';
 import StatusCode from '../redux/enum';
 import { useAppSelector, useAppDispatch } from '../redux';
 import { userLoginSelector } from '../redux/slices/userSlice';
@@ -38,37 +38,37 @@ const Login: FC<Props> = ({ location, history }) => {
 
   return (
     <FormContainer>
-      <div className='form__top'>
+      <div className="form__top">
         <h1>Sign In</h1>
         {status === StatusCode.PENDING && <Loader />}
         {status === StatusCode.REJECTED && (
-          <AlertMessage variant='error' message={errorMessage} />
+          <AlertMessage variant="error" message={errorMessage} />
         )}
       </div>
-      <form onSubmit={submitHandler} className='form__bottom'>
+      <form onSubmit={submitHandler} className="form__bottom">
         <label>Email Address</label>
         <input
-          type='email'
+          type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className='input'
+          className="input"
         />
         <label>Password</label>
         <input
-          type='password'
+          type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className='input'
+          className="input"
         />
         <Button
-          variant='button'
+          variant="button"
           style={{ fontSize: '1em', alignSelf: 'center' }}
         >
           Sign In
         </Button>
       </form>
 
-      <div className='register'>
+      <div className="register">
         New Customer?
         <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>
           Register

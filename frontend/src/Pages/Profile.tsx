@@ -7,7 +7,10 @@ import Loader from '../Components/Loader/Loader';
 
 import { detailsUser, updateProfile } from '../redux/thunks/user';
 import { useAppSelector, useAppDispatch } from '../redux';
-import { userDetailsSelector } from '../redux/slices/userDetailsSlice';
+import {
+  userDetailsReset,
+  userDetailsSelector,
+} from '../redux/slices/userDetailsSlice';
 import { userLoginSelector } from '../redux/slices/userSlice';
 
 import StatusCode from '../redux/enum';
@@ -26,7 +29,7 @@ const Profile: FC<Props> = ({ history }) => {
   const dispatch = useAppDispatch();
 
   const userDetails = useAppSelector(userDetailsSelector);
-  const { errorMessage, status, user, orders } = userDetails;
+  const { errorMessage, status, user } = userDetails;
 
   const userLogin = useAppSelector(userLoginSelector);
 
@@ -35,14 +38,15 @@ const Profile: FC<Props> = ({ history }) => {
     if (!userInfo) {
       history.push('/login');
     } else {
-      if (!user) {
+      if (!user || !user.name) {
+        dispatch(userDetailsReset());
         dispatch(detailsUser('profile'));
       } else {
         setName(user.name);
         setEmail(user.email);
       }
     }
-  }, [dispatch, history, user, userInfo]);
+  }, [dispatch, history, success, user, userInfo]);
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,6 +54,7 @@ const Profile: FC<Props> = ({ history }) => {
       setMessage('Passwords do not match');
     } else {
       dispatch(updateProfile({ id: user._id, name, email, password }));
+      setSuccess(true);
     }
   };
 

@@ -1,11 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { loginUser, registerUser } from '../thunks/user';
 import { getLocalStorageItem } from '../../Utils/browser';
 import { USER, USER_INFO } from '../../constants/redux';
 
 //Types enums
 import StatusCode from '../enum';
-import { IUserState, RootState } from '../types';
+import { IUserState, RootState, UserInfo } from '../types';
 
 const initialState: IUserState = {
   status: StatusCode.IDLE,
@@ -19,6 +19,11 @@ const userSlice = createSlice({
     logout(state) {
       localStorage.removeItem(USER_INFO);
       state.userInfo = null;
+    },
+    login(state, action: PayloadAction<UserInfo, string>) {
+      state.status = StatusCode.IDLE;
+      state.errorMessage = '';
+      state.userInfo = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -58,6 +63,6 @@ const userSlice = createSlice({
   },
 });
 
-export const { logout } = userSlice.actions;
+export const { logout, login } = userSlice.actions;
 export default userSlice.reducer;
 export const userLoginSelector = (state: RootState) => state.userLogin;

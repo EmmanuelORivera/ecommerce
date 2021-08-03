@@ -1,7 +1,7 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { detailsUser } from '../thunks/user/index';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { detailsUser } from '../thunks/user';
 import { getLocalStorageItem } from '../../Utils/browser';
-import { USER, USER_DETAILS } from '../../constants/redux';
+import { USER_DETAILS } from '../../constants/redux';
 
 import StatusCode from '../enum';
 import { IUserDetailsState, RootState, UserInfo } from '../types';
@@ -16,7 +16,21 @@ const initialState: IUserDetailsState = {
 const userDetailsSlice = createSlice({
   initialState,
   name: USER_DETAILS,
-  reducers: {},
+  reducers: {
+    details(state, action: PayloadAction<UserInfo, string>) {
+      state.status = StatusCode.IDLE;
+      state.errorMessage = '';
+      state.user = action.payload;
+    },
+    userDetailsReset(state) {
+      state = {
+        status: StatusCode.IDLE,
+        errorMessage: '',
+        user: {} as UserInfo,
+        orders: {},
+      };
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(detailsUser.pending, (state) => {
       state.status = StatusCode.PENDING;
@@ -37,5 +51,6 @@ const userDetailsSlice = createSlice({
   },
 });
 
+export const { details, userDetailsReset } = userDetailsSlice.actions;
 export default userDetailsSlice.reducer;
 export const userDetailsSelector = (state: RootState) => state.userDetails;
