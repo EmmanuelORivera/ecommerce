@@ -18,22 +18,25 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const { userInfo } = useAppSelector(userLoginSelector);
 
-  const logoutHandler = (setShow: ShowComponentSetValue) => {
+  const logoutHandler = () => {
     dispatch(logout());
+  };
+
+  const showDropDownMenu = (setShow: ShowComponentSetValue) => {
     setShow((prevShow) => !prevShow);
   };
 
   return (
-    <header className='header'>
-      <div className='wrapper grid-2-columns'>
+    <header className="header">
+      <div className="wrapper grid-2-columns">
         <Logo />
-        <nav className='header__nav'>
+        <nav className="header__nav">
           <NavLink
-            to='/cart'
+            to="/cart"
             activeStyle={{ fontWeight: 'bold' }}
-            className='nav__item'
+            className="nav__item"
           >
-            <i className='fas fa-shopping-cart'></i>Cart
+            <i className="fas fa-shopping-cart"></i>Cart
           </NavLink>
           {userInfo ? (
             <div>
@@ -45,7 +48,8 @@ const Header = () => {
                   return (
                     show && (
                       <DropDownMenu
-                        logoutHandler={() => logoutHandler(setShow)}
+                        logoutHandler={() => logoutHandler()}
+                        showDropDownMenu={() => showDropDownMenu(setShow)}
                       />
                     )
                   );
@@ -56,14 +60,14 @@ const Header = () => {
                     setShow((prevShow) => !prevShow);
                   }}
                 >
-                  <i className='fa fa-caret-down' aria-hidden='true'></i>
+                  <i className="fa fa-caret-down" aria-hidden="true"></i>
                   {userInfo.name}
                 </span>
               </OutsiderAlert>
             </div>
           ) : (
-            <NavLink to='/login' activeStyle={{ fontWeight: 'bold' }}>
-              <i className='fas fa-user'></i>Sign in
+            <NavLink to="/login" activeStyle={{ fontWeight: 'bold' }}>
+              <i className="fas fa-user"></i>Sign in
             </NavLink>
           )}
         </nav>

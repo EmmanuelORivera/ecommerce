@@ -27,6 +27,7 @@ const userSlice = createSlice({
     });
     builder.addCase(loginUser.fulfilled, (state, action) => {
       state.status = StatusCode.IDLE;
+      state.errorMessage = '';
       state.userInfo = action.payload;
     });
     builder.addCase(loginUser.rejected, (state, action) => {
@@ -43,6 +44,7 @@ const userSlice = createSlice({
     });
     builder.addCase(registerUser.fulfilled, (state, action) => {
       state.status = StatusCode.IDLE;
+      state.errorMessage = '';
       state.userInfo = action.payload;
     });
     builder.addCase(registerUser.rejected, (state, action) => {

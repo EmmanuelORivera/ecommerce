@@ -7,19 +7,21 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import ScrollToTop from './Utils/ScrollToTop';
 import Cart from './Pages/Cart';
 import Login from './Pages/Login';
+import Profile from './Pages/Profile';
 import Register from './Pages/Register';
 function App() {
   return (
     <Router>
       <ScrollToTop />
       <Header />
-      <main className='wrapper'>
+      <main className="wrapper">
         <Switch>
-          <Route path='/' component={Home} exact />
-          <Route path='/product/:id' component={Product} />
-          <Route path='/login' component={Login} />
-          <Route path='/register' component={Register} />
-          <Route path='/cart/:id?' component={Cart} />
+          <Route path="/" component={Home} exact />
+          <Route path="/product/:id" component={Product} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+          <Route path="/profile" component={Profile} />
+          <Route path="/cart/:id?" component={Cart} />
         </Switch>
       </main>
       <Footer />

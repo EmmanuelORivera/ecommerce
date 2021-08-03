@@ -1,5 +1,9 @@
+export const DETAILS = 'DETAILS';
 export const EXPORT_INFO = 'EXPORT_INFO';
 export const INFO = 'INFO';
 export const LOGOUT = 'LOGOUT';
 export const USER = 'USER';
+export const UPDATE = 'UPDATE';
+export const USER_DETAILS = `${USER}/${DETAILS}`;
 export const USER_INFO = `${USER}/${INFO}`;
+export const USER_UPDATE = `${USER}/${UPDATE}`;
