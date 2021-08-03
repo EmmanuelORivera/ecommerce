@@ -21,6 +21,7 @@ const Profile: FC<Props> = ({ history }) => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [message, setMessage] = useState('');
+  const [success, setSuccess] = useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -61,6 +62,9 @@ const Profile: FC<Props> = ({ history }) => {
           {status === StatusCode.PENDING && <Loader />}
           {status === StatusCode.REJECTED && (
             <AlertMessage variant="error" message={errorMessage} />
+          )}
+          {success === true && (
+            <AlertMessage variant="success" message={'Profile Updated'} />
           )}
           {status === StatusCode.IDLE && (
             <form onSubmit={submitHandler} className="form__bottom">

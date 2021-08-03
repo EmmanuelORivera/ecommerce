@@ -15,6 +15,11 @@
     background-color: #227dce20;
   }
 
+  &--success {
+    border-left: 0.4em solid #02ec73;
+    background-color: #d5ece0;
+  }
+
   &__title {
     margin: 0 0 0.4em;
   }
