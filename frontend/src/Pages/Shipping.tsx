@@ -4,18 +4,29 @@ import { RouteComponentProps } from 'react-router-dom';
 import Button from '../Components/Button/Button';
 import FormContainer from '../Components/FormContainer/FormContainer';
 
+import { cartSelector } from '../redux/slices/cartSlice';
+import { saveShippingAddress } from '../redux/thunks/cart';
+import { useAppSelector, useAppDispatch } from '../redux';
+
 import StatusCode from '../redux/enum';
 
 interface Props extends RouteComponentProps {}
 
 const Shipping: FC<Props> = ({ history }) => {
-  const [address, setAddress] = useState('');
-  const [city, setCity] = useState('');
-  const [postalCode, setPostalCode] = useState('');
-  const [country, setCountry] = useState('');
+  const cart = useAppSelector(cartSelector);
+  const { shippingAddress } = cart;
+
+  const [address, setAddress] = useState(shippingAddress.address);
+  const [city, setCity] = useState(shippingAddress.city);
+  const [postalCode, setPostalCode] = useState(shippingAddress.postalCode);
+  const [country, setCountry] = useState(shippingAddress.country);
+
+  const dispatch = useAppDispatch();
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
+    dispatch(saveShippingAddress({ address, city, postalCode, country }));
+    history.push('/payment');
   };
 
   return (

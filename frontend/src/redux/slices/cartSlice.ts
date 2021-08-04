@@ -2,35 +2,47 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { getLocalStorageItem } from '../../Utils/browser';
 import { addToCart } from '../thunks/cart';
-import { IBaseState, ICartProduct, RootState } from '../types';
+import {
+  ICartProduct,
+  IProductState,
+  IShippingAddress,
+  RootState,
+} from '../types';
 import StatusCode from '../enum';
-
-interface IProductState extends IBaseState {
-  cartItems: Array<ICartProduct>;
-}
+import { CART, CART_ITEMS, SHIPPING_ADDRESS } from '../../constants/redux';
 
 const initialState: IProductState = {
-  cartItems: getLocalStorageItem<[]>('cartItems', []),
   status: StatusCode.IDLE,
   errorMessage: '',
+  cartItems: getLocalStorageItem(CART_ITEMS, []) as ICartProduct[],
+  shippingAddress: getLocalStorageItem(
+    SHIPPING_ADDRESS,
+    {}
+  ) as IShippingAddress,
 };
 
 const cartSlice = createSlice({
   initialState,
-  name: 'cart',
+  name: CART,
   reducers: {
-    addItem: (state, action: PayloadAction<ICartProduct>) => {
-      const item = action.payload;
-      const existItem = state.cartItems.find((x) => x.product === item.product);
+    // addItem: (state, action: PayloadAction<ICartProduct>) => {
+    //   const item = action.payload;
+    //   const existItem = state.cartItems.find((x) => x.product === item.product);
 
-      if (existItem) {
-        const arrayCartItems = state.cartItems.map((cartItem) =>
-          cartItem.product === existItem.product ? item : cartItem
-        );
-        state.cartItems = arrayCartItems;
-      } else {
-        state.cartItems.push(item);
-      }
+    //   if (existItem) {
+    //     const arrayCartItems = state.cartItems.map((cartItem) =>
+    //       cartItem.product === existItem.product ? item : cartItem
+    //     );
+    //     state.cartItems = arrayCartItems;
+    //   } else {
+    //     state.cartItems.push(item);
+    //   }
+    // },
+    cartSaveShippingAddress: (
+      state,
+      action: PayloadAction<IShippingAddress>
+    ) => {
+      state.shippingAddress = action.payload;
     },
     removeItem: (state, action: PayloadAction<string>) => {
       state.cartItems = state.cartItems.filter(
@@ -57,5 +69,5 @@ const cartSlice = createSlice({
 });
 
 export default cartSlice.reducer;
-export const { addItem, removeItem } = cartSlice.actions;
+export const { cartSaveShippingAddress, removeItem } = cartSlice.actions;
 export const cartSelector = (state: RootState) => state.cart;

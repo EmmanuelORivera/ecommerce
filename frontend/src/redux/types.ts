@@ -15,6 +15,18 @@ export interface ICartProduct {
   quantity: number;
 }
 
+export interface IProductState extends IBaseState {
+  cartItems: Array<ICartProduct>;
+  shippingAddress: IShippingAddress;
+}
+
+export interface IShippingAddress {
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
+}
+
 export interface IUserState extends IBaseState {
   userInfo: UserInfo | null;
 }

@@ -1,14 +1,20 @@
 import { AnyAction, createAsyncThunk, ThunkAction } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
+import { CART_ITEMS, SHIPPING_ADDRESS } from '../../../constants/redux';
 import { IProduct } from '../../../products';
-import { removeItem } from '../../slices/cartSlice';
-import { ICartProduct, RootState, ValidationErrors } from '../../types';
+import { removeItem, cartSaveShippingAddress } from '../../slices/cartSlice';
+import {
+  ICartProduct,
+  IShippingAddress,
+  RootState,
+  ValidationErrors,
+} from '../../types';
 
 export const addToCart = createAsyncThunk<
   Array<ICartProduct>,
   { id: string; quantity: number },
   { rejectValue: ValidationErrors; state: RootState }
->('cart/addToCart', async ({ id, quantity }, { rejectWithValue, getState }) => {
+>(CART_ITEMS, async ({ id, quantity }, { rejectWithValue, getState }) => {
   try {
     const { data }: { data: IProduct } = await axios.get(`/api/products/${id}`);
 
@@ -38,7 +44,7 @@ export const addToCart = createAsyncThunk<
               : cartItem
           ),
         };
-        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        localStorage.setItem(CART_ITEMS, JSON.stringify(cartItems));
         return cartItems;
       } else {
         //just adding the new product to the array without a mutation
@@ -46,7 +52,7 @@ export const addToCart = createAsyncThunk<
           ...state,
           cartItems: [...state.cartItems, cartProduct],
         };
-        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        localStorage.setItem(CART_ITEMS, JSON.stringify(cartItems));
         return cartItems;
       }
     };
@@ -65,8 +71,12 @@ export const removeFromCart =
   (id: string): ThunkAction<void, RootState, unknown, AnyAction> =>
   (dispatch, getState) => {
     dispatch(removeItem(id));
-    localStorage.setItem(
-      'cartItems',
-      JSON.stringify(getState().cart.cartItems)
-    );
+    localStorage.setItem(CART_ITEMS, JSON.stringify(getState().cart.cartItems));
+  };
+
+export const saveShippingAddress =
+  (data: IShippingAddress): ThunkAction<void, RootState, unknown, AnyAction> =>
+  (dispatch) => {
+    dispatch(cartSaveShippingAddress(data));
+    localStorage.setItem(SHIPPING_ADDRESS, JSON.stringify(data));
   };

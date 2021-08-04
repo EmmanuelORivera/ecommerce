@@ -1,9 +1,15 @@
+export const ADDRESS = 'ADDRESS';
+export const CART = 'CART';
 export const DETAILS = 'DETAILS';
 export const EXPORT_INFO = 'EXPORT_INFO';
 export const INFO = 'INFO';
+export const ITEMS = 'ITEMS';
 export const LOGOUT = 'LOGOUT';
+export const SHIPPING = 'SHIPPING';
 export const USER = 'USER';
 export const UPDATE = 'UPDATE';
+export const CART_ITEMS = `${CART}/${ITEMS}`;
+export const SHIPPING_ADDRESS = `${SHIPPING}/${ADDRESS}`;
 export const USER_DETAILS = `${USER}/${DETAILS}`;
 export const USER_INFO = `${USER}/${INFO}`;
 export const USER_UPDATE = `${USER}/${UPDATE}`;
