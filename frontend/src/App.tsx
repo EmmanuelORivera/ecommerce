@@ -9,6 +9,7 @@ import Cart from './Pages/Cart';
 import Login from './Pages/Login';
 import Profile from './Pages/Profile';
 import Register from './Pages/Register';
+import Shipping from './Pages/Shipping';
 function App() {
   return (
     <Router>
@@ -20,6 +21,7 @@ function App() {
           <Route path="/product/:id" component={Product} />
           <Route path="/login" component={Login} />
           <Route path="/register" component={Register} />
+          <Route path="/shipping" component={Shipping} />
           <Route path="/profile" component={Profile} />
           <Route path="/cart/:id?" component={Cart} />
         </Switch>
