@@ -7,7 +7,6 @@ import {
   UserUpdated,
   ValidationErrors,
 } from '../../types';
-import { details } from '../../slices/userDetailsSlice';
 import { login } from '../../slices/userSlice';
 import { USER_DETAILS, USER_INFO, USER_UPDATE } from '../../../constants/redux';
 
@@ -134,7 +133,7 @@ export const updateProfile = createAsyncThunk<
         config
       );
 
-      dispatch(details(data));
+      dispatch(detailsUser('profile'));
       dispatch(login(data));
 
       localStorage.setItem(USER_INFO, JSON.stringify(data));

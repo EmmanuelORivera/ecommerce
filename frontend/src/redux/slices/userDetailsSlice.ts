@@ -1,5 +1,5 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { detailsUser } from '../thunks/user';
+import { createSlice } from '@reduxjs/toolkit';
+import { detailsUser } from '../thunks/user/index';
 import { getLocalStorageItem } from '../../Utils/browser';
 import { USER_DETAILS } from '../../constants/redux';
 
@@ -17,11 +17,6 @@ const userDetailsSlice = createSlice({
   initialState,
   name: USER_DETAILS,
   reducers: {
-    details(state, action: PayloadAction<UserInfo, string>) {
-      state.status = StatusCode.IDLE;
-      state.errorMessage = '';
-      state.user = action.payload;
-    },
     userDetailsReset(state) {
       state = {
         status: StatusCode.IDLE,
@@ -51,6 +46,6 @@ const userDetailsSlice = createSlice({
   },
 });
 
-export const { details, userDetailsReset } = userDetailsSlice.actions;
+export const { userDetailsReset } = userDetailsSlice.actions;
 export default userDetailsSlice.reducer;
 export const userDetailsSelector = (state: RootState) => state.userDetails;

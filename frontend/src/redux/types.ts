@@ -20,7 +20,7 @@ export interface IUserState extends IBaseState {
 }
 
 export interface IUserDetailsState extends IBaseState {
-  user: UserInfo;
+  user: Omit<UserInfo, 'token'>;
   orders: {};
 }
 

@@ -8,6 +8,7 @@ import FormContainer from '../Components/FormContainer/FormContainer';
 
 import { loginUser } from '../redux/thunks/user';
 import StatusCode from '../redux/enum';
+import { redirectLoggedUser } from '../Utils/redirectLoggedUser';
 import { useAppSelector, useAppDispatch } from '../redux';
 import { userLoginSelector } from '../redux/slices/userSlice';
 import './Login.css';
@@ -23,7 +24,7 @@ const Login: FC<Props> = ({ location, history }) => {
   const userLogin = useAppSelector(userLoginSelector);
   const { errorMessage, status, userInfo } = userLogin;
 
-  const redirect = location.search ? location.search.split('=')[1] : '/';
+  const redirect = redirectLoggedUser(location);
 
   useEffect(() => {
     if (userInfo) {

@@ -7,7 +7,6 @@ import { userLoginSelector } from '../../redux/slices/userSlice';
 import { NavLink } from 'react-router-dom';
 import { ReactComponent as Logo } from '../../images/Logo.svg';
 import './Header.css';
-import { userDetailsReset } from '../../redux/slices/userDetailsSlice';
 import {
   ShowComponentSetValue,
   ShowComponentValue,
@@ -22,7 +21,6 @@ const Header = () => {
   const logoutHandler = () => {
     //Logout first clean the localhost.
     dispatch(logout());
-    dispatch(userDetailsReset());
   };
 
   const showDropDownMenu = (setShow: ShowComponentSetValue) => {

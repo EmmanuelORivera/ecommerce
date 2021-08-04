@@ -7,10 +7,7 @@ import Loader from '../Components/Loader/Loader';
 
 import { detailsUser, updateProfile } from '../redux/thunks/user';
 import { useAppSelector, useAppDispatch } from '../redux';
-import {
-  userDetailsReset,
-  userDetailsSelector,
-} from '../redux/slices/userDetailsSlice';
+import { userDetailsSelector } from '../redux/slices/userDetailsSlice';
 import { userLoginSelector } from '../redux/slices/userSlice';
 
 import StatusCode from '../redux/enum';
@@ -39,14 +36,13 @@ const Profile: FC<Props> = ({ history }) => {
       history.push('/login');
     } else {
       if (!user || !user.name) {
-        dispatch(userDetailsReset());
         dispatch(detailsUser('profile'));
       } else {
         setName(user.name);
         setEmail(user.email);
       }
     }
-  }, [dispatch, history, success, user, userInfo]);
+  }, [dispatch, history, user, userInfo]);
 
   const submitHandler = (e: React.FormEvent) => {
     e.preventDefault();
@@ -54,6 +50,7 @@ const Profile: FC<Props> = ({ history }) => {
       setMessage('Passwords do not match');
     } else {
       dispatch(updateProfile({ id: user._id, name, email, password }));
+      setMessage('');
       setSuccess(true);
     }
   };
@@ -63,13 +60,15 @@ const Profile: FC<Props> = ({ history }) => {
       <div className="ProfileScreen">
         <div className="ProfileScreen__user">
           <h2>User Profile</h2>
-          {message && <AlertMessage variant="error" message={message} />}
+          {status === StatusCode.IDLE && message && (
+            <AlertMessage variant="error" message={message} />
+          )}
+          {status === StatusCode.IDLE && success === true && (
+            <AlertMessage variant="success" message={'Profile Updated'} />
+          )}
           {status === StatusCode.PENDING && <Loader />}
           {status === StatusCode.REJECTED && (
             <AlertMessage variant="error" message={errorMessage} />
-          )}
-          {success === true && (
-            <AlertMessage variant="success" message={'Profile Updated'} />
           )}
           {status === StatusCode.IDLE && (
             <form onSubmit={submitHandler} className="form__bottom">

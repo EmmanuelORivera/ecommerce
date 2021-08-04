@@ -1,14 +1,12 @@
 import React, { FC, useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../redux';
-import {
-  cartSelector,
-  addToCart,
-  removeFromCart,
-} from '../redux/slices/cartSlice';
 import AlertMessage from '../Components/AlertMessage';
-import './Cart.css';
+import { useAppDispatch, useAppSelector } from '../redux';
+import { cartSelector } from '../redux/slices/cartSlice';
+import { addToCart, removeFromCart } from '../redux/thunks/cart';
 import { ICartProduct } from '../redux/types';
+import './Cart.css';
+
 interface Props extends RouteComponentProps<{ id: string }> {}
 
 const Cart: FC<Props> = ({ match, location, history }) => {
@@ -41,28 +39,28 @@ const Cart: FC<Props> = ({ match, location, history }) => {
   return (
     <>
       <h1>Shopping Cart</h1>
-      <div className='shopping'>
-        <div className='shopping__left'>
+      <div className="shopping">
+        <div className="shopping__left">
           {cartItems.length === 0 ? (
-            <AlertMessage variant='info' message='Your cart is empty'>
-              <Link className='go-back-link' to='/'>
+            <AlertMessage variant="info" message="Your cart is empty">
+              <Link className="go-back-link" to="/">
                 Go back
               </Link>
             </AlertMessage>
           ) : (
-            <div className='shopping__items'>
+            <div className="shopping__items">
               {cartItems.map((cartItem) => (
-                <div className='shopping__item' key={cartItem.product}>
-                  <div className='shopping__item-image'>
+                <div className="shopping__item" key={cartItem.product}>
+                  <div className="shopping__item-image">
                     <img src={cartItem.image} alt={cartItem.name} />
                   </div>
-                  <div className='shopping__item-name'>
+                  <div className="shopping__item-name">
                     <Link to={`/product/${cartItem.product}`}>
                       {cartItem.name}
                     </Link>
                   </div>
-                  <div className='shopping__item-price'>${cartItem.price}</div>
-                  <div className='shopping__item-quantity'>
+                  <div className="shopping__item-price">${cartItem.price}</div>
+                  <div className="shopping__item-quantity">
                     <form>
                       <select
                         value={cartItem.quantity}
@@ -85,12 +83,12 @@ const Cart: FC<Props> = ({ match, location, history }) => {
                       </select>
                     </form>
                   </div>
-                  <div className='shopping__item-delete'>
+                  <div className="shopping__item-delete">
                     <button
-                      type='button'
+                      type="button"
                       onClick={(e) => deleteHandler(cartItem)}
                     >
-                      <i className='fa fa-trash' />
+                      <i className="fa fa-trash" />
                     </button>
                   </div>
                 </div>
@@ -98,9 +96,9 @@ const Cart: FC<Props> = ({ match, location, history }) => {
             </div>
           )}
         </div>
-        <div className='shopping__right'>
-          <div className='shopping__right-wrapper'>
-            <div className='shopping__right-info'>
+        <div className="shopping__right">
+          <div className="shopping__right-wrapper">
+            <div className="shopping__right-info">
               <h2>
                 Subtotal (
                 {cartItems.reduce(
@@ -119,7 +117,7 @@ const Cart: FC<Props> = ({ match, location, history }) => {
                   .toFixed(2)}
               </span>
             </div>
-            <div className='product__add-cart-button'>
+            <div className="product__add-cart-button">
               <button
                 onClick={checkoutHandler}
                 disabled={cartItems.length === 0}
